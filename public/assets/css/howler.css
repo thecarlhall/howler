@@ -1,0 +1,122 @@
+/***********************************************************************************/
+/*                                GENERAL STYLES                                   */
+/***********************************************************************************/
+html, body {
+    height:100%;
+}
+body {
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-family: arial, sans-serif;
+}
+ol, ul {
+    list-style:none;
+    margin:0;
+    padding-left:3px;
+}
+img {
+    border:0;
+}
+.list .item-odd {
+    background-color:lightgray;
+}
+.dimmed {
+    filter:alpha(opacity=40);
+    opacity:0.4;
+}
+.refresh {
+	cursor:pointer;
+}
+.header {
+    background-color:lightgray;
+}
+.clear {
+    clear:both;
+}
+.row1 {
+	background-color:#f5f5f5;
+}
+.right {
+	float:right;
+}
+/***********************************************************************************/
+/*                             SPECIFIC STYLES                                     */
+/***********************************************************************************/
+#playlists {
+	width:14.75%;
+	margin-top:5px;
+    border:thin #009be3 solid;
+    overflow-y:auto;
+    float:left;
+}
+#playlist-list {
+	min-height:13em;
+}
+#marquee {
+    border-top:thin #009be3 solid;
+    font-style:italic;
+    overflow:hidden;
+    vertical-align:middle;
+    height:1.5em;
+}
+#selectors {
+    margin-top:5px;
+    padding:0;
+    width:84.75%;
+    float:right;
+}
+#artist-selector, #album-selector {
+    border:thin #009be3 solid;
+    width:49.75%;
+}
+#artist-selector {
+    float:left;
+}
+#album-selector {
+    float:right;
+}
+#artist-list, #album-list {
+    height:13em;
+    overflow-y:auto;
+}
+.entry {
+    font-size:0.9em;
+    vertical-align:middle;
+    padding-bottom:2px;
+    height:1.2em;
+}
+.entry a {
+    text-decoration:none;
+}
+
+/* Collection */
+#collection {
+    margin-top:5px;
+    border:thin #009be3 solid;
+    overflow-y:auto;
+    width:84.75%;
+    float:right;
+}
+#entries { /* table */
+    width:100%;
+}
+#entries tr th {
+    border-bottom:thin #009be3 solid;
+	text-align:left;
+	cursor:pointer;
+}
+#entries .track {
+    width:4%;
+}
+#entries td {
+    width:31%;
+}
+.entry .play img {
+    position:relative;
+    margin:0 5px;
+    top:2px;
+}
+.now-playing {
+    background-color:lightblue;
+}
