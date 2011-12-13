@@ -53,7 +53,7 @@ class Controller_Dataload extends Controller {
 				if ($entry == null) {
 					echo "Creating entry for $fd<br/>";
 					$entry = Model\Entry::forge(array('path' => $full_path));
-				} else {
+				} elseif ($update) {
 					echo "Updating entry for $fd<br/>";
 				}
 				flush();
