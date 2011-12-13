@@ -7,7 +7,10 @@ class Controller_Dataload extends Controller {
 		{
 			// process post parameters
 			$start = microtime(true);
-			$count = $this->process_dir(Input::post('dir'));
+			$dir = Input::post('dir');
+			$update = Input::post('update');
+			$count = $this->process_dir($dir, $update == '1');
+
 			$end = microtime(true);
 			echo "Processed $count entries in ".($end - $start)." milliseconds.";
 		}
@@ -17,7 +20,7 @@ class Controller_Dataload extends Controller {
 		}
 	}
 
-	private function process_dir($start_dir, $count = 0, $max_count = -1)
+	private function process_dir($start_dir, $update = false, $count = 0, $max_count = -1)
 	{
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
@@ -40,20 +43,23 @@ class Controller_Dataload extends Controller {
 			}
 			elseif (is_file($full_path))
 			{
-				// open the file to read the id3
-				$metadata = $id3->analyze($full_path);
-				getid3_lib::CopyTagsToComments($metadata);
-				$comments = $metadata['comments'];
-
 				// get existing model or create one
 				$entry = Model\Entry::find()->where('path', $full_path)->get_one();
 				if ($entry == null) {
 					echo "Creating entry for $fd<br/>";
+					flush();
 					$entry = Model\Entry::forge(array('path' => $full_path));
-				} else {
+				} elseif ($update) {
 					echo "Updating entry for $fd<br/>";
+					flush();
+				} else {
+					continue;
 				}
-				flush();
+
+				// open the file to read the id3
+				$metadata = $id3->analyze($full_path);
+				getid3_lib::CopyTagsToComments($metadata);
+				$comments = $metadata['comments'];
 
 				// update data on the model
 				$entry->size = filesize($full_path);
