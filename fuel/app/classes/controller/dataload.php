@@ -27,9 +27,6 @@ class Controller_Dataload extends Controller
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
 
-		echo "<b>Beginning processing on $start_dir [$max_count]</b><br/>";
-		flush();
-
 		$count = 0;
 
 		# walk the directory
@@ -51,11 +48,11 @@ class Controller_Dataload extends Controller
 				// get existing model or create one
 				$entry = Model\Entry::find()->where('path', $full_path)->get_one();
 				if ($entry == null) {
-					echo "Creating entry for $fd<br/>";
+					echo "Creating entry for $full_path<br/>";
 					flush();
 					$entry = Model\Entry::forge(array('path' => $full_path));
 				} elseif ($update) {
-					echo "Updating entry for $fd<br/>";
+					echo "Updating entry for $full_path<br/>";
 					flush();
 				} else {
 					continue;
