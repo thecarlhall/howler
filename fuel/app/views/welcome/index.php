@@ -2,7 +2,7 @@
 Lang::load('howler');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<?php echo Asset::css(array('howler.css', 'jplayer.blue.monday.css')) ?>
 	<title><?php echo Lang::get('application_title') ?></title>

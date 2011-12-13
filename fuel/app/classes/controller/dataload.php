@@ -19,7 +19,7 @@ class Controller_Dataload extends Controller {
 
 	private function process_dir($start_dir, $count = 0, $max_count = -1)
 	{
-		require_once('/home/chall/projects/howler/howler-fuel/getid3/getid3.php');
+		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
 
 		# walk the directory

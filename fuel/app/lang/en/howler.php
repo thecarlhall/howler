@@ -23,5 +23,7 @@ return array(
 	'add_playlist' => 'Add Playlist',
 
 	// from dataload/index.php
-	'dataload_title' => 'Dataload',
+	'dataload_title' => 'Dataload Manager',
+	'getid3_found' => 'getid3 found at :path',
+	'getid3_notfound' => 'getid3 not found at :path',
 );
