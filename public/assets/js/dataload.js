@@ -5,15 +5,27 @@
 var howler = howler || {};
 howler.dataload = howler.dataload || {};
 
-howler.dataload.pollTillDone = function() {
+howler.dataload.pollUntilDone = function() {
 	var done = false;
+	var input = { 'dir': $('#form_dir').val(), 'update': $('#form_update').attr('checked') };
 	while (!done) {
-		$.post('dataload', function(data) {
-			start = "Processed ".length();
-			end = data.indexOf(" entries");
-			count = data.substring(start, end);
-			alert(count);
-			done = true;
+		$.ajax({
+			'url': 'dataload',
+			'type': 'post',
+			'data': input,
+			'async': false,
+			'success': function(data) {
+				$('#output').html(data);
+				start = "Processed ".length();
+				end = data.indexOf(" entries");
+				count = data.substring(start, end);
+				alert(count);
+				done = true;
+			},
+			'error': function(jqXHR, textStatus, errorThrown) {
+				alert(data);
+				done = true;
+			}
 		});
 	}
 };

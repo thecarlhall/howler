@@ -10,11 +10,17 @@ class Controller_Dataload extends Controller
 			$update = Input::post('update', '0') == '1';
 			$max = Input::post('max', 100);
 
-			$start = microtime(true);
-			$count = $this->process_dir($dir, $update, $max);
-			$end = microtime(true);
-
-			return Response::forge("Processed $count entries in ".($end - $start)." milliseconds.");
+			if (is_dir($dir))
+			{
+				$start = microtime(true);
+				$count = $this->process_dir($dir, $update, $max);
+				$end = microtime(true);
+				return Response::forge("Processed $count entries in ".($end - $start)." milliseconds.");
+			}
+			else
+			{
+				throw new HttpNotFoundException();
+			}
 		}
 		else
 		{

@@ -6,6 +6,7 @@ Lang::load('howler');
 <head>
 	<?php echo Asset::css(array('howler.css')) ?>
 	<title><?php echo Lang::get('application_title') ?></title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 	<?php echo Asset::js(array('dataload.js')) ?>
 </head>
 <body>
@@ -18,10 +19,8 @@ Lang::load('howler');
 	<?php } else { ?>
 	<p><?php echo Lang::get('getid3_notfound', array('path' => $path)); ?></p>
 	<?php } ?>
-	<?php echo Form::open(); ?>
 	<?php echo Lang::get('dataload_dir') ?>: <?php echo Form::input('dir', '/srv/music'); ?></br>
 	<?php echo Form::checkbox('update', '1'); ?> <?php echo Lang::get('dataload_update'); ?><br/>
-	<?php echo Form::button('submit', 'Process directory', array('onclick' => 'howler.dataload.pollTillDone()')); ?>
-	<?php echo Form::close(); ?>
+	<?php echo Form::button('submit', 'Process directory', array('onclick' => 'howler.dataload.pollUntilDone()')); ?>
 	<div id='output'></div>
 </html>
