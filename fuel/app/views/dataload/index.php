@@ -17,7 +17,8 @@ Lang::load('howler');
 	<p><?php echo Lang::get('getid3_notfound', array('path' => $path)); ?></p>
 	<?php } ?>
 	<?php echo Form::open(); ?>
-	<?php echo Form::input('dir', '/srv/music'); ?>
+	<?php echo Lang::get('dataload_dir') ?>: <?php echo Form::input('dir', '/srv/music'); ?></br>
+	<?php echo Form::checkbox('update'); ?> <?php echo Lang::get('dataload_update'); ?><br/>
 	<?php echo Form::submit(); ?>
 	<?php echo Form::close(); ?>
 </html>

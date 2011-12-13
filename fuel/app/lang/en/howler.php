@@ -24,6 +24,8 @@ return array(
 
 	// from dataload/index.php
 	'dataload_title' => 'Dataload Manager',
+	'dataload_update' => 'Update existing entries?',
+	'dataload_dir' => 'Directory to read for music',
 	'getid3_found' => 'getid3 found at :path',
 	'getid3_notfound' => 'getid3 not found at :path',
 );

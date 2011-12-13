@@ -7,7 +7,10 @@ class Controller_Dataload extends Controller {
 		{
 			// process post parameters
 			$start = microtime(true);
-			$count = $this->process_dir(Input::post('dir'));
+			$dir = Input::post('dir');
+			$update = Input::post('update');
+			$count = $this->process_dir($dir, $update == '1');
+
 			$end = microtime(true);
 			echo "Processed $count entries in ".($end - $start)." milliseconds.";
 		}
@@ -17,7 +20,7 @@ class Controller_Dataload extends Controller {
 		}
 	}
 
-	private function process_dir($start_dir, $count = 0, $max_count = -1)
+	private function process_dir($start_dir, $update = false, $count = 0, $max_count = -1)
 	{
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
@@ -50,7 +53,7 @@ class Controller_Dataload extends Controller {
 				if ($entry == null) {
 					echo "Creating entry for $fd<br/>";
 					$entry = Model\Entry::forge(array('path' => $full_path));
-				} else {
+				} elseif ($update) {
 					echo "Updating entry for $fd<br/>";
 				}
 				flush();
