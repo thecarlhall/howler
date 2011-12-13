@@ -22,5 +22,5 @@ Lang::load('howler');
 	<?php echo Lang::get('dataload_dir') ?>: <?php echo Form::input('dir', '/srv/music'); ?></br>
 	<?php echo Form::checkbox('update', '1'); ?> <?php echo Lang::get('dataload_update'); ?><br/>
 	<?php echo Form::button('submit', 'Process directory', array('onclick' => 'howler.dataload.pollUntilDone()')); ?>
-	<div id='output'></div>
+	<div id='output' style='overflow:scroll;font-size:75%'></div>
 </html>
