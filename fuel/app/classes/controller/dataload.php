@@ -15,7 +15,7 @@ class Controller_Dataload extends Controller
 				$start = microtime(true);
 				$count = $this->process_dir($dir, $update, $max);
 				$end = microtime(true);
-				return Response::forge("Processed $count entries in ".($end - $start)." milliseconds.");
+				return Response::forge("Processed $count entries in ".($end - $start)." seconds.");
 			}
 			else
 			{
