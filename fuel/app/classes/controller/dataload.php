@@ -1,18 +1,20 @@
 <?php
-class Controller_Dataload extends Controller {
-
+class Controller_Dataload extends Controller
+{
 	public function action_index()
 	{
 		if (Input::method() == 'POST')
 		{
 			// process post parameters
-			$start = microtime(true);
 			$dir = Input::post('dir');
-			$update = Input::post('update');
-			$count = $this->process_dir($dir, $update == '1');
+			$update = Input::post('update', '0') == '1';
+			$max = Input::post('max', 200);
 
+			$start = microtime(true);
+			$count = $this->process_dir($dir, $update, $max);
 			$end = microtime(true);
-			echo "Processed $count entries in ".($end - $start)." milliseconds.";
+
+			return Response::forge("Processed $count entries in ".($end - $start)." milliseconds.");
 		}
 		else
 		{
@@ -20,10 +22,15 @@ class Controller_Dataload extends Controller {
 		}
 	}
 
-	private function process_dir($start_dir, $update = false, $count = 0, $max_count = -1)
+	private function process_dir($start_dir, $update = false, $max_count = 200)
 	{
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
+
+		echo "<b>Beginning processing on $start_dir [$max_count]</b><br/>";
+		flush();
+
+		$count = 0;
 
 		# walk the directory
 		$files_dirs = scandir($start_dir);
@@ -37,9 +44,7 @@ class Controller_Dataload extends Controller {
 			$full_path = "$start_dir/$fd";
 			if (is_dir($full_path))
 			{
-				echo "<b>$fd</b><br/>";
-				flush();
-				$count = $this->process_dir($full_path, $count, $max_count);
+				$count += $this->process_dir($full_path, $update, $max_count);
 			}
 			elseif (is_file($full_path))
 			{
@@ -71,6 +76,9 @@ class Controller_Dataload extends Controller {
 				$entry->save();
 
 				$count++;
+			}
+			if ($count >= $max_count) {
+				break;
 			}
 		}
 		return $count;

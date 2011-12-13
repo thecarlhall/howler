@@ -3,10 +3,10 @@
 /**
  * The player object that contains all controls, trackers and playlist functionality.
  */
-var howler = howler || {}
-howler.player = howler.player || {}
-howler.player.currentId = null
-howler.player.state = null
+var howler = howler || {};
+howler.player = howler.player || {};
+howler.player.currentId = null;
+howler.player.state = null;
 
 /**
  * Initialization function for the player
