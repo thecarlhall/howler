@@ -64,18 +64,20 @@ class Controller_Dataload extends Controller
 				// open the file to read the id3
 				$metadata = $id3->analyze($full_path);
 				getid3_lib::CopyTagsToComments($metadata);
-				$comments = $metadata['comments'];
+				if (array_key_exists('comments')) {
+					$comments = $metadata['comments'];
 
-				// update data on the model
-				$entry->size = filesize($full_path);
-				array_key_exists('track', $comments) and $entry->track = $comments['track'][0];
-				array_key_exists('artist', $comments) and $entry->artist = $comments['artist'][0];
-				array_key_exists('album', $comments) and $entry->album = $comments['album'][0];
-				array_key_exists('title', $comments) and $entry->title = $comments['title'][0];
-				array_key_exists('genre', $comments) and $entry->genre =$comments['genre'][0];
-				$entry->save();
+					// update data on the model
+					$entry->size = filesize($full_path);
+					array_key_exists('track', $comments) and $entry->track = $comments['track'][0];
+					array_key_exists('artist', $comments) and $entry->artist = $comments['artist'][0];
+					array_key_exists('album', $comments) and $entry->album = $comments['album'][0];
+					array_key_exists('title', $comments) and $entry->title = $comments['title'][0];
+					array_key_exists('genre', $comments) and $entry->genre =$comments['genre'][0];
+					$entry->save();
 
-				$count++;
+					$count++;
+				}
 			}
 			if ($count >= $max_count) {
 				break;
