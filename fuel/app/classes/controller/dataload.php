@@ -66,7 +66,7 @@ class Controller_Dataload extends Controller
 				// open the file to read the id3
 				$metadata = $id3->analyze($full_path);
 				getid3_lib::CopyTagsToComments($metadata);
-				if (array_key_exists('comments'))
+				if (array_key_exists('comments', $metadata))
 				{
 					$comments = $metadata['comments'];
 
