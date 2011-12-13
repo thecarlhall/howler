@@ -8,7 +8,7 @@ class Controller_Dataload extends Controller
 			// process post parameters
 			$dir = Input::post('dir');
 			$update = Input::post('update', '0') == '1';
-			$max = Input::post('max', 20);
+			$max = Input::post('max', 200);
 
 			$start = microtime(true);
 			$count = $this->process_dir($dir, $update, $max);
