@@ -6,7 +6,7 @@ class Controller_Entries extends Controller
 		$entry = Model\Entry::find($id);
 		if (!isset($entry))
 		{
-			return Response::forge(null, 404);
+			throw new HttpNotFoundException();
 		}
 
 		return View::forge('entries/view', array('entry' => $entry));
@@ -41,13 +41,13 @@ class Controller_Entries extends Controller
 		$entry = Model\Entry::find($id);
 		if (!isset($entry))
 		{
-			return Response::forge(null, 404);
+			throw new HttpNotFoundException();
 		}
 
 		$path = $entry->path;
 		if (!file_exists($path))
 		{
-			return Response::forge(null, 404);
+			throw new HttpNotFoundException();
 		}
 
 		header('Content-Type: application/octet-stream');
@@ -63,7 +63,7 @@ class Controller_Entries extends Controller
 		$entry = Model\Entry::find($id);
 		if (!isset($entry))
 		{
-			return Response::forge(null, 404);
+			throw new HttpNotFoundException();
 		}
 
 		$output = array();
