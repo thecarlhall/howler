@@ -43,20 +43,23 @@ class Controller_Dataload extends Controller {
 			}
 			elseif (is_file($full_path))
 			{
-				// open the file to read the id3
-				$metadata = $id3->analyze($full_path);
-				getid3_lib::CopyTagsToComments($metadata);
-				$comments = $metadata['comments'];
-
 				// get existing model or create one
 				$entry = Model\Entry::find()->where('path', $full_path)->get_one();
 				if ($entry == null) {
 					echo "Creating entry for $fd<br/>";
+					flush();
 					$entry = Model\Entry::forge(array('path' => $full_path));
 				} elseif ($update) {
 					echo "Updating entry for $fd<br/>";
+					flush();
+				} else {
+					continue;
 				}
-				flush();
+
+				// open the file to read the id3
+				$metadata = $id3->analyze($full_path);
+				getid3_lib::CopyTagsToComments($metadata);
+				$comments = $metadata['comments'];
 
 				// update data on the model
 				$entry->size = filesize($full_path);
