@@ -13,3 +13,6 @@ nbproject/
 .idea
 
 /fuel/app/config/crypt.php
+
+access.log
+error.log
