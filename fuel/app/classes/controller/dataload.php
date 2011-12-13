@@ -8,7 +8,7 @@ class Controller_Dataload extends Controller
 			// process post parameters
 			$dir = Input::post('dir');
 			$update = Input::post('update', '0') == '1';
-			$max = Input::post('max', 200);
+			$max = Input::post('max', 100);
 
 			$start = microtime(true);
 			$count = $this->process_dir($dir, $update, $max);
@@ -22,7 +22,7 @@ class Controller_Dataload extends Controller
 		}
 	}
 
-	private function process_dir($start_dir, $update = false, $max_count = 200)
+	private function process_dir($start_dir, $update = false, $max_count = 100)
 	{
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
@@ -61,23 +61,30 @@ class Controller_Dataload extends Controller
 					continue;
 				}
 
+				$entry->size = filesize($full_path);
+
 				// open the file to read the id3
 				$metadata = $id3->analyze($full_path);
 				getid3_lib::CopyTagsToComments($metadata);
-				if (array_key_exists('comments')) {
+				if (array_key_exists('comments'))
+				{
 					$comments = $metadata['comments'];
 
 					// update data on the model
-					$entry->size = filesize($full_path);
 					array_key_exists('track', $comments) and $entry->track = $comments['track'][0];
 					array_key_exists('artist', $comments) and $entry->artist = $comments['artist'][0];
 					array_key_exists('album', $comments) and $entry->album = $comments['album'][0];
 					array_key_exists('title', $comments) and $entry->title = $comments['title'][0];
 					array_key_exists('genre', $comments) and $entry->genre =$comments['genre'][0];
-					$entry->save();
-
-					$count++;
 				}
+				else
+				{
+					$entry->title = $fd;
+					$entry->artist = 'busted';
+					$entry->album = 'busted';
+				}
+				$entry->save();
+				$count++;
 			}
 			if ($count >= $max_count) {
 				break;
