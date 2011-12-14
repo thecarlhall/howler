@@ -1,49 +1,69 @@
 /* global $ */
 var howler = howler || {};
+howler.playlist = howler.playlist || {};
 
+howler.playlist.init = function() {
+	howler.playlist.loadPlaylists();
+};
+
+howler.playlist.loadPlaylists = function() {
+	// TODO call server for a list of saved playlists
+};
+
+// ---------- Manage Current Playlist methods ----------------------------------
+howler.playlist.addItem = function(id) {
+	var url = howler.url('entries/view/' + id);
+	$.get(url, function(data) {
+		$('#playlist .items').append('<div id="playlist-' + id + '" class=".item">').append(data).append('</div>');
+	});
+};
+
+// ---------- Manage Saved Playlists methods -----------------------------------
+
+/*
 howler.playlist._extractId = function(str) {
 	var id = false;
 	if (str) {
 		id = str.substring(str.lastIndexOf('-') + 1);
 	}
 	return id;
-}
+};
 
 /**
  * Add an item to the current loaded playlist
  *
  * @param item The ID of the item to add to the playlist.
- */
+ *\/
 howler.playlist.addItem = function(id) {
 	var url = '/playlists/add/entry/' + id;
 	$.get(url, function(data) {
 		$('#playlist .items').append(data);
 	});
-}
+};
 
 /**
  * Add all items associated to a parent ID.
  * 
  * @param parentId The parent ID to load all children of.
- */
+ *\/
 howler.playlist.addParent = function(parentId) {
 	var url = '/playlists/add/parent/' + parentId;
 	$.get(url, function(data) {
 		$('#playlist .items').append(data);
 	});
-}
+};
 
 /**
  * Clear all items from the current playlist. Does not affect the state of
  * any saved playlists.
- */
+ *\/
 howler.playlist.clear = function() {
 	$('#playlist .items').empty();
-}
+};
 
 /**
  * Delete a saved playlist.
- */
+ *\/
 howler.playlist.deletePlaylist = function(id) {
 	if (id && id != '_new') {
 		if (confirm('Are you sure you want to delete this playlist?')) {
@@ -52,7 +72,7 @@ howler.playlist.deletePlaylist = function(id) {
 				type: 'DELETE',
 				url: url,
 				success: function(data, textStatus) {
-				Playlist.loadPlaylists();
+					howler.playlist.loadPlaylists();
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert('Unable to delete playlist [' + textStatus + ']');
@@ -60,7 +80,7 @@ howler.playlist.deletePlaylist = function(id) {
 			});
 		}
 	}
-}
+};
 
 howler.playlist.generate = function() {
 	var count = 0;
@@ -81,11 +101,11 @@ howler.playlist.generate = function() {
 			});
 		});
 	}
-}
+};
 
 /**
  * Highlight an item in the current playlist using the ID of the item.
- */
+ *\/
 howler.playlist.highlight = function(id) {
 	// clear current highlighted item
 	$('.now-playing .controls .play').attr('src', 'images/control_play_blue.png');
@@ -104,11 +124,11 @@ howler.playlist.highlight = function(id) {
 
 		$('#playlist').scrollTop(scrollTop + topDiff);
 	}
-}
+};
 
-howler.playlist.highlightBlur function() {
+howler.playlist.highlightBlur = function() {
 	$('.now-playing .controls .play').attr('src', 'images/control_play_blue.png');
-}
+};
 
 howler.playlist.highlightFocus = function() {
 	$('.now-playing .controls .play').attr('src', 'images/control_pause_blue.png');
@@ -116,38 +136,38 @@ howler.playlist.highlightFocus = function() {
 
 /**
  * Initialization of the playlist
- */
+ *\/
 howler.playlist.init = function() {
-	Playlist.loadPlaylists();
-}
+	howler.playlist.loadPlaylists();
+};
 
 /**
  * Load a saved playlist.
  * 
  * @param id The ID of the playlist to load.
- */
+ *\/
 howler.playlist.loadPlaylist = function(id) {
 	if (id) {
-		var url = '/playlists/' + id;
+		var url = 'index.php/playlists/' + id;
 		$('#playlist .items').load(url, function() {
 			$(this).sortable({
 				axis: 'y',
 				opacity: .75
 			});
-			Playlist.toggleSavedView();
+			howler.playlist.toggleSavedView();
 		});
 	} else {
 		alert('No playlist to load.');
 	}
-}
+};
 
 /**
  * Load the list of all playlists available to the user.
- */
+ *\/
 howler.playlist.loadPlaylists = function() {
 	$('#saved-playlists .list').load('/playlists');
 //			$('#saved-playlists .list').resizable();
-}
+};
 
 /**
  * Get the ID of the next item in the playlist that should be played. Will
@@ -155,15 +175,15 @@ howler.playlist.loadPlaylists = function() {
  * 
  * @param ignoreRepeat(optional) Whether to ignore a repeat state of
  *        'SONG'.
- */
+ *\/
 howler.playlist.nextId = function(ignoreRepeat) {
 	var nextId = false;
 	var currentPlayingId = Player.currentPlayingId();
 	if (currentPlayingId) {
-		if (!ignoreRepeat && Playlist.repeat() == 'SONG') {
+		if (!ignoreRepeat && howler.playlist.repeat() == 'SONG') {
 			nextId = currentPlayingId;
-		} else if (Playlist.random()) {
-			nextId = Playlist.randomId();
+		} else if (howler.playlist.random()) {
+			nextId = howler.playlist.randomId();
 		} else {
 			// get the ID of the item after the current playing one
 			var nextItem = $('#playlist-item-' + currentPlayingId).next();
@@ -171,7 +191,7 @@ howler.playlist.nextId = function(ignoreRepeat) {
 			if (id) {
 				// trim the item ID to just the data ID
 				nextId = _extractId(id);
-			} else if (Playlist.repeat() != 'NONE') {
+			} else if (howler.playlist.repeat() != 'NONE') {
 				// if allowed to repeat the list, grab the first item
 				id = $('#playlist .items li:first').attr('id');
 				if (id) {
@@ -186,7 +206,7 @@ howler.playlist.nextId = function(ignoreRepeat) {
 		}
 	}
 	return nextId;
-}
+};
 
 /**
  * Get the ID of the previous item in the playlist that should be played.
@@ -194,20 +214,20 @@ howler.playlist.nextId = function(ignoreRepeat) {
  * 
  * @param overrideRepeat(optional) Whether to override a repeat state of
  *        'SONG'.
- */
+ *\/
 howler.playlist.prevId = function(ignoreRepeat) {
 	var currentPlayingId = Player.currentPlayingId();
 	var prevId = false;
 
 	if (currentPlayingId) {
-		if (!ignoreRepeat && Playlist.repeat() == 'SONG') {
+		if (!ignoreRepeat && howler.playlist.repeat() == 'SONG') {
 			prevId = currentPlayingId;
 		} else {
 			var prevItem = $('#playlist-item-' + currentPlayingId).prev();
 			var id = prevItem.attr('id');
 			if (id) {
 				prevId = _extractId(id);
-			} else if (Playlist.repeat() != 'NONE') {
+			} else if (howler.playlist.repeat() != 'NONE') {
 				var id = $('#playlist .items li:last').attr('id');
 				if (id) {
 					prevId = _extractId(id);
@@ -222,7 +242,7 @@ howler.playlist.prevId = function(ignoreRepeat) {
 		}
 	}
 	return prevId;
-}
+};
 
 /**
  * Tells if the play order should be random, if state is not provided.
@@ -230,7 +250,7 @@ howler.playlist.prevId = function(ignoreRepeat) {
  *
  * @returns true if play should be random
  *          false otherwise
- */
+ *\/
 howler.playlist.random = function(state) {
 	var rand = $('#random');
 	if (state != null) {
@@ -238,13 +258,13 @@ howler.playlist.random = function(state) {
 	} else {
 		return rand.attr('checked');
 	}
-}
+};
 
 /**
  * Get the ID of a random item in the current playlist.
  * 
  * @return A randomly selected playlist item's ID.
- */
+ *\/
 howler.playlist.randomId = function() {
 	var playlist = $('#playlist .items li');
 	var size = playlist.size();
@@ -252,24 +272,24 @@ howler.playlist.randomId = function() {
 	var id = $('#playlist .items li:eq(' + pos + ')').attr('id');
 	var nextId = _extractId(id);
 	return nextId;
-}
+};
 
 /**
  * Remove an item from the current playlist. The item is selected by matching
  * to the provided ID.
  * 
  * @param id The ID of the item to remove from the playlist.
- */
+ *\/
 howler.playlist.removeItem = function(id) {
 	$('#playlist-item-' + id).remove();
-}
+};
 
 /**
  * Gets the repeat state, if state is not provided.
  * 
  * Sets the repeat state, if state is provided.
  * Expected values: NONE, SONG, LIST
- */
+ *\/
 howler.playlist.repeat = function(state) {
 	var menu = $('#repeat-menu');
 	if (state) {
@@ -277,11 +297,11 @@ howler.playlist.repeat = function(state) {
 	} else {
 		return menu.val();
 	}
-}
+};
 
 /**
  * Saves the current playlist.
- */
+ *\/
 howler.playlist.savePlaylist = function(name) {
 	if (!name || name == '_new') {
 		name = '';
@@ -305,19 +325,19 @@ howler.playlist.savePlaylist = function(name) {
 			url: url,
 			data: {'playlist': playlist},
 			success: function() {
-				Playlist.loadPlaylists();
+				howler.playlist.loadPlaylists();
 			},
 			error: function() {
 				alert('An error occurred saving the playlist.  Please try again later.');
 			}
 		});
 	}
-}
+};
 
 /**
  * Show/hide the saved playlists area based on the current view state of the
  * area.
- */
+ *\/
 howler.playlist.toggleSavedView = function() {
 	var anchor = $('#saved-playlists-actions a');
 	var img = $('img', anchor);
@@ -331,8 +351,9 @@ howler.playlist.toggleSavedView = function() {
 		savedPlaylists.slideDown('fast');
 		anchor.removeClass('show-button').addClass('hide-button');
 	}
-}
+};
 
 $(document).ready(function() {
-	Playlist.init();
+	howler.playlist.init();
 });
+*/

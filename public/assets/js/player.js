@@ -66,7 +66,7 @@ howler.player.play = function(id) {
         $('.now-playing').removeClass('now-playing');
 
         // set the marquee title to the selected entry title
-        $.get('index.php/entries/view/' + id, function(data) {
+        $.get(howler.url('entries/view/' + id), function(data) {
         	$('#marquee').html(data);
         });
 
@@ -75,7 +75,7 @@ howler.player.play = function(id) {
         entry$.addClass('now-playing');
 
         // play the music!
-        player$.jPlayer('setMedia', {mp3: 'index.php/entries/stream/' + id}).jPlayer('play');
+        player$.jPlayer('setMedia', {mp3: howler.url('entries/stream/' + id)}).jPlayer('play');
 
         // track the current ID
         howler.player.currentId = id;

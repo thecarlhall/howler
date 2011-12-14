@@ -14,10 +14,14 @@ howler.init = function() {
     $(window).resize(howler.setMaxHeights);
 };
 
+howler.url = function(url) {
+	return 'index.php/' + url;
+}
+
 howler.setMaxHeights = function() {
     var winHeight = $(window).height();
 
-    var maxHeights = ['#playlists', '#collection'];
+    var maxHeights = ['#playlists-container', '#collection'];
     for (maxer in maxHeights) {
         var maxer$ = $(maxHeights[maxer]);
         if (maxer$.offset()) {
@@ -61,7 +65,7 @@ howler.hashchanges = function() {
  */
 howler.find = function(type, options) {
     if (type) {
-        $.get('index.php/entries/find/' + type, options, function(data) {
+        $.get(howler.url('entries/find/' + type), options, function(data) {
             $('#collection').html(data);
             $("#entries").tablesorter();
         });
@@ -73,7 +77,7 @@ howler.find = function(type, options) {
  */
 howler.list = function(type) {
     if (type) {
-        $.get('index.php/entries/list/' + type, function(data) {
+        $.get(howler.url('entries/list/' + type), function(data) {
             $('#' + type + '-list').html(data);
         });
     }

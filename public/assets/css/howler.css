@@ -43,14 +43,14 @@ img {
 /***********************************************************************************/
 /*                             SPECIFIC STYLES                                     */
 /***********************************************************************************/
-#playlists {
+#playlists-container {
 	width:14.75%;
 	margin-top:5px;
     border:thin #009be3 solid;
     overflow-y:auto;
     float:left;
 }
-#playlist-list {
+#playlists {
 	min-height:13em;
 }
 #marquee {
@@ -82,9 +82,7 @@ img {
 }
 .entry {
     font-size:0.9em;
-    vertical-align:middle;
-    padding-bottom:2px;
-    height:1.2em;
+    height:1.5em;
 }
 .entry a {
     text-decoration:none;

@@ -45,7 +45,7 @@ class Controller_Dataload extends Controller
 		$files_dirs = scandir($start_dir);
 		foreach ($files_dirs as $fd)
 		{
-			if ($fd == '.' or $fd == '..')
+			if ($fd == '.' or $fd == '..' or pathinfo($fd, PATHINFO_EXTENSION) != 'mp3')
 			{
 				continue;
 			}

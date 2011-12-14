@@ -7,14 +7,14 @@ Lang::load('howler');
 	<?php echo Asset::css(array('howler.css', 'jplayer.blue.monday.css')) ?>
 	<title><?php echo Lang::get('application_title') ?></title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<?php echo Asset::js(array('jquery.ba-bbq.min.js', 'jquery.tablesorter.min.js', 'jquery.jplayer.min.js', 'player.js', 'howler.js')) ?>
+	<?php echo Asset::js(array('jquery.ba-bbq.min.js', 'jquery.tablesorter.min.js', 'jquery.jplayer.min.js', 'player.js', 'playlist.js', 'howler.js')) ?>
 </head>
 <body>
 
 <div id='marquee'><?php echo Lang::get('application_title') ?></div>
 
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-<div class="jp-audio">
+<div id='jp_container_1' class="jp-audio">
 	<div class="jp-type-playlist">
 		<div id="jp_interface_1" class="jp-interface">
 			<ul class="jp-controls">
@@ -42,19 +42,21 @@ Lang::load('howler');
 
 <div id='search'></div>
 
-<div id='playlists'>
+<div id='playlists-container'>
 	<div class='header'><?php echo Lang::get('play_queue') ?></div>
-	<div id='playlist-list'></div>
+	<div id='playlist'></div>
 </div>
 
 <div id='selectors'>
 	<div id='artist-selector'>
-		<div class='header'><?php echo Lang::get('artists') ?> <a title="<?php echo Lang::get('refresh_artists'); ?>" onclick="howler.listBy('artist', '#artists-list')" class='refresh'
+	<!-- howler.list('artist', '#artists-list') -->
+		<div class='header'><?php echo Lang::get('artists') ?> <a title="<?php echo Lang::get('refresh_artists'); ?>" href='#type=artist' class='refresh'
 			><?php echo Asset::img('arrow_refresh_small.png', array('alt' => Lang::get('refresh_artists'))); ?></a></div>
 		<div id='artist-list'><?php echo Asset::img('wait30trans.gif'); ?></div>
 		</div>
 	<div id='album-selector'>
-		<div class='header'><?php echo Lang::get('albums') ?> <a title="<?php echo Lang::get('refresh_albums'); ?>" onclick="howler.listBy('album', '#albums-list')" class='refresh'
+	<!-- onclick="howler.list('album', '#albums-list') -->
+		<div class='header'><?php echo Lang::get('albums') ?> <a title="<?php echo Lang::get('refresh_albums'); ?>" href='#type=album' class='refresh'
 			><?php echo Asset::img('arrow_refresh_small.png', array('alt' => Lang::get('refresh_albums'))); ?></a></div>
 		<div id='album-list'><?php echo Asset::img('wait30trans.gif'); ?></div>
 	</div>
@@ -67,13 +69,13 @@ Lang::load('howler');
 $(document).ready(function() {
 	$("#jquery_jplayer_1").jPlayer({
 		"swfPath": "assets/js",
-		"ready": function() {howler.player.init(); howler.init()},
+		"ready": function() {howler.player.init(); howler.playlist.init();howler.init();},
 		errorAlerts: false,
 		warningAlerts: false
-	})
+	});
 	howler.list('artist');
 	howler.list('album');
-})
+});
 </script>
 </body>
 </html>
