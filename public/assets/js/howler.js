@@ -11,7 +11,9 @@ howler.init = function() {
     $(window).trigger('hashchange');
 
     howler.setMaxHeights();
-    $(window).resize(howler.setMaxHeights);
+
+	howler.list('artist');
+	howler.list('album');
 };
 
 howler.url = function(url) {
@@ -29,6 +31,7 @@ howler.setMaxHeights = function() {
             maxer$.height(winHeight - top - 3);
         }
     }
+    $(window).resize(howler.setMaxHeights);
 };
 
 /**

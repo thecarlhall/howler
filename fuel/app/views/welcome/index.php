@@ -6,7 +6,7 @@ Lang::load('howler');
 <head>
 	<?php echo Asset::css(array('howler.css', 'jplayer.blue.monday.css')) ?>
 	<title><?php echo Lang::get('application_title') ?></title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<?php echo Asset::js(array('jquery.ba-bbq.min.js', 'jquery.tablesorter.min.js', 'jquery.jplayer.min.js', 'player.js', 'playlist.js', 'howler.js')) ?>
 </head>
 <body>
@@ -67,14 +67,12 @@ Lang::load('howler');
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#jquery_jplayer_1").jPlayer({
-		"swfPath": "assets/js",
-		"ready": function() {howler.player.init(); howler.playlist.init();howler.init();},
-		errorAlerts: false,
-		warningAlerts: false
+	$(howler.player.id).jPlayer({
+		'swfPath': 'assets/js',
+		'ready': function() {howler.player.init();howler.init();},
+		'errorAlerts': false,
+		'warningAlerts': false
 	});
-	howler.list('artist');
-	howler.list('album');
 });
 </script>
 </body>

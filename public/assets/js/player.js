@@ -7,22 +7,18 @@ var howler = howler || {};
 howler.player = howler.player || {};
 howler.player.id = '#jquery_jplayer_1';
 howler.player.currentId = null;
-howler.player.state = null;
 
 /**
  * Initialization function for the player
  */
 howler.player.init = function() {
     // attach events to the player buttons
-    $('.jp-play').click(function() {howler.player.play(); return false;});
-    $('.jp-pause').click(function() {howler.player.pause(); return false;});
-    $('.jp-previous').click(function() {howler.player.previous(); return false;});
-    $('.jp-next').click(function() {howler.player.next(); return false;});
+    $('.jp-play').click(function() {howler.player.play();});
+    $('.jp-pause').click(function() {howler.player.pause();});
+    $('.jp-previous').click(function() {howler.player.previous();});
+    $('.jp-next').click(function() {howler.player.next();});
 
-    $(howler.player.id)
-        .bind($.jPlayer.event.play, function() {howler.player.state = 'play';})
-        .bind($.jPlayer.event.pause, function() {howler.player.state = 'pause';})
-        .bind($.jPlayer.event.ended, howler.player.next);
+    $(howler.player.id).bind($.jPlayer.event.ended, howler.player.next);
 };
 
 /**
@@ -54,12 +50,7 @@ howler.player.next = function() {
  */
 howler.player.play = function(id) {
     if (!id || id == howler.player.currentId) {
-        // if selected entry is playing, just toggle play/pause
-        if (howler.player.state === 'play') {
-            $(howler.player.id).jPlayer('pause');
-        } else {
-            $(howler.player.id).jPlayer('play');
-        }
+        $(howler.player.id).jPlayer('play');
     } else {
         // unhighlight current playing entry
         $('.now-playing').removeClass('now-playing');
@@ -81,7 +72,7 @@ howler.player.play = function(id) {
 };
 
 howler.player.pause = function(id) {
-    $(howler.player.id).jPlayer('play');
+    $(howler.player.id).jPlayer('pause');
 };
 
 /**
