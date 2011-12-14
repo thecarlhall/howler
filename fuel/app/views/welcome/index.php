@@ -71,8 +71,8 @@ $(document).ready(function() {
 		errorAlerts: false,
 		warningAlerts: false
 	})
-	howler.listBy('artist');
-	howler.listBy('album');
+	howler.list('artist');
+	howler.list('album');
 })
 </script>
 </body>
