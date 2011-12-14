@@ -53,7 +53,7 @@ class Controller_Dataload extends Controller
 			$full_path = "$start_dir/$fd";
 			if (is_dir($full_path))
 			{
-				$count += $this->process_dir($full_path, $update, $max_count);
+				$count += $this->process_dir($full_path, $update);
 			}
 			elseif (is_file($full_path))
 			{

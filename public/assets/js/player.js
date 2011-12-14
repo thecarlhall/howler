@@ -22,7 +22,7 @@ howler.player.init = function() {
         .bind($.jPlayer.event.play, function() {howler.player.state = 'playing';})
         .bind($.jPlayer.event.pause, function() {howler.player.state = 'paused';})
         .bind($.jPlayer.event.ended, howler.player.next);
-}
+};
 
 /**
  * Add an entry to the playlist.
@@ -33,7 +33,7 @@ howler.player.add = function(id, title) {
         'class': id
     }).append(imgLink$).append(title);
     $('#jplayer_playlist ul').append(li);
-}
+};
 
 /**
  * Play the next entry.
@@ -46,7 +46,7 @@ howler.player.next = function() {
     }
 
     howler.player.play(nextId);
-}
+};
 
 /**
  * Play a specific entry.
@@ -66,7 +66,7 @@ howler.player.play = function(id) {
         $('.now-playing').removeClass('now-playing');
 
         // set the marquee title to the selected entry title
-        $.get('entries/view/' + id, function(data) {
+        $.get('index.php/entries/view/' + id, function(data) {
         	$('#marquee').html(data);
         });
 
@@ -75,12 +75,12 @@ howler.player.play = function(id) {
         entry$.addClass('now-playing');
 
         // play the music!
-        player$.jPlayer('setMedia', {mp3: 'entries/stream/' + id}).jPlayer('play');
+        player$.jPlayer('setMedia', {mp3: 'index.php/entries/stream/' + id}).jPlayer('play');
 
         // track the current ID
         howler.player.currentId = id;
     }
-}
+};
 
 /**
  * Play the previous entry.
@@ -93,4 +93,4 @@ howler.player.previous = function() {
     }
 
     howler.player.play(prevId);
-}
+};
