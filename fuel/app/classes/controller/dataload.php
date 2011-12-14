@@ -1,6 +1,8 @@
 <?php
 class Controller_Dataload extends Controller
 {
+	/** TODO Add all files to the db first then process id3 in batches */
+
 	public function action_index()
 	{
 		if (Input::method() == 'POST')
@@ -8,14 +10,17 @@ class Controller_Dataload extends Controller
 			// process post parameters
 			$dir = Input::post('dir');
 			$update = Input::post('update', '0') == '1';
-			$max = Input::post('max', 100);
 
 			if (is_dir($dir))
 			{
 				$start = microtime(true);
-				$count = $this->process_dir($dir, $update, $max);
+				$count = $this->process_dir($dir, $update);
 				$end = microtime(true);
-				return Response::forge("Processed $count entries in ".($end - $start)." seconds.");
+
+				$msg = "Processed $count entries in ".($end - $start)." seconds.";
+				Log::info($msg);
+
+				return Response::forge("$msg<br/>");
 			}
 			else
 			{
@@ -28,8 +33,9 @@ class Controller_Dataload extends Controller
 		}
 	}
 
-	private function process_dir($start_dir, $update = false, $max_count = 100)
+	private function process_dir($start_dir, $update = false)
 	{
+		set_time_limit(0);
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
 
@@ -54,12 +60,14 @@ class Controller_Dataload extends Controller
 				// get existing model or create one
 				$entry = Model\Entry::find()->where('path', $full_path)->get_one();
 				if ($entry == null) {
-					echo "Creating entry for $full_path<br/>";
-					flush();
+					$msg = "Creating entry for $full_path";
+					Log::info($msg);
+					echo $msg;
 					$entry = Model\Entry::forge(array('path' => $full_path));
 				} elseif ($update) {
-					echo "Updating entry for $full_path<br/>";
-					flush();
+					$msg = "Updating entry for $full_path";
+					Log::info($msg);
+					echo $msg;
 				} else {
 					continue;
 				}
@@ -88,9 +96,6 @@ class Controller_Dataload extends Controller
 				}
 				$entry->save();
 				$count++;
-			}
-			if ($count >= $max_count) {
-				break;
 			}
 		}
 		return $count;

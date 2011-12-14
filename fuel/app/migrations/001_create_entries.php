@@ -8,7 +8,7 @@ class Create_entries {
 	{
 		\DBUtil::create_table('entries', array(
 			'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
-			'path' => array('constraint' => 150, 'type' => 'varchar'),
+			'path' => array('constraint' => 500, 'type' => 'varchar'),
 			'artist' => array('constraint' => 150, 'type' => 'varchar', 'null' => true),
 			'album' => array('constraint' => 150, 'type' => 'varchar', 'null' => true),
 			'title' => array('constraint' => 150, 'type' => 'varchar', 'null' => true),
