@@ -5,6 +5,7 @@
  */
 var howler = howler || {};
 howler.player = howler.player || {};
+howler.player.id = '#jquery_jplayer_1';
 howler.player.currentId = null;
 howler.player.state = null;
 
@@ -14,13 +15,13 @@ howler.player.state = null;
 howler.player.init = function() {
     // attach events to the player buttons
     $('.jp-play').click(function() {howler.player.play(); return false;});
-    $('.jp-pause').click(function() {howler.player.play(); return false;});
+    $('.jp-pause').click(function() {howler.player.pause(); return false;});
     $('.jp-previous').click(function() {howler.player.previous(); return false;});
     $('.jp-next').click(function() {howler.player.next(); return false;});
 
-    $('#jquery_jplayer_1')
-        .bind($.jPlayer.event.play, function() {howler.player.state = 'playing';})
-        .bind($.jPlayer.event.pause, function() {howler.player.state = 'paused';})
+    $(howler.player.id)
+        .bind($.jPlayer.event.play, function() {howler.player.state = 'play';})
+        .bind($.jPlayer.event.pause, function() {howler.player.state = 'pause';})
         .bind($.jPlayer.event.ended, howler.player.next);
 };
 
@@ -52,14 +53,12 @@ howler.player.next = function() {
  * Play a specific entry.
  */
 howler.player.play = function(id) {
-    var player$ = $('#jquery_jplayer_1');
-
     if (!id || id == howler.player.currentId) {
         // if selected entry is playing, just toggle play/pause
-        if (howler.player.state === 'playing') {
-            player$.jPlayer('pause');
+        if (howler.player.state === 'play') {
+            $(howler.player.id).jPlayer('pause');
         } else {
-            player$.jPlayer('play');
+            $(howler.player.id).jPlayer('play');
         }
     } else {
         // unhighlight current playing entry
@@ -71,15 +70,18 @@ howler.player.play = function(id) {
         });
 
         // highlight the selected entry
-        var entry$ = $('#' + id);
-        entry$.addClass('now-playing');
+        $('#' + id).addClass('now-playing');
 
         // play the music!
-        player$.jPlayer('setMedia', {mp3: howler.url('entries/stream/' + id)}).jPlayer('play');
+        $(howler.player.id).jPlayer('setMedia', {mp3: howler.url('entries/stream/' + id)}).jPlayer('play');
 
         // track the current ID
         howler.player.currentId = id;
     }
+};
+
+howler.player.pause = function(id) {
+    $(howler.player.id).jPlayer('play');
 };
 
 /**
