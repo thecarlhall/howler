@@ -104,6 +104,7 @@ class Controller_Dataload extends Controller
 				$count++;
 
 				if ($count % 100 == 0) {
+					ob_flush();
 					flush();
 				}
 			}

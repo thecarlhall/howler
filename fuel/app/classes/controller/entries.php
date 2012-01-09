@@ -1,6 +1,9 @@
 <?php
+define('CHUNK_SIZE', 1024 * 1024);
+
 class Controller_Entries extends Controller
 {
+
 	public function action_view($id)
 	{
 		$entry = Model\Entry::find($id);
@@ -53,10 +56,7 @@ class Controller_Entries extends Controller
 
 		header('Content-Type: application/octet-stream');
 		header('Content-Length: '.$entry->size);
-		$fp = fopen($path, 'r');
-		echo fread($fp, filesize($path));
-		fclose($fp);
-		return;
+		$this->_readfile_chunked($path);
 	}
 
 	public function action_metadata($id)
@@ -78,5 +78,23 @@ class Controller_Entries extends Controller
 		$resp = Response::forge($json);
 		$resp->set_header('Content-Type', 'application/json');
 		return $resp;
+	}
+
+	// ---------- helper functions ----------------------------------------------
+	private function _readfile_chunked($path) {
+		$fp = fopen($path, 'r');
+		if ($fp === false) {
+			throw new HttpNotFoundException();
+		}
+
+		$buffer = '';
+		while (!feof($fp)) {
+			$buffer = fread($fp, CHUNK_SIZE);
+			echo $buffer;
+			ob_flush();
+			flush();
+		}
+		$status = fclose($handle);
+		return $status;
 	}
 }
