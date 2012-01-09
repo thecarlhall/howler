@@ -37,37 +37,60 @@ img {
 .row1 {
 	background-color:#f5f5f5;
 }
+.left {
+	float:left;
+}
 .right {
 	float:right;
 }
 /***********************************************************************************/
 /*                             SPECIFIC STYLES                                     */
 /***********************************************************************************/
+/***** player styles *****/
+#jp_container_1 {
+	float:right;
+	width:85%;
+}
+/***** playlist styles *****/
 #playlists-container {
 	width:14.75%;
-	margin-top:5px;
-    border:thin #009be3 solid;
+    border:1px #009be3 solid;
     overflow-y:auto;
     float:left;
 }
 #playlists {
 	min-height:13em;
 }
+#playlists-header {
+	border-bottom:1px #009be3 solid;
+}
+/***** marquee styles *****/
 #marquee {
-    border-top:thin #009be3 solid;
-    font-style:italic;
+    border:1px #009be3 solid;
     overflow:hidden;
     vertical-align:middle;
     height:1.5em;
+    background-color: lightgray;
+    margin-bottom:2px;
+    padding:1px;
+    text-align:center;
 }
+#marquee .title {
+    font-weight:bold;
+    font-size:115%;
+}
+#marquee .artist, #marquee .album {
+    font-style:italic;
+}
+/***** selectors (artist, album) styles *****/
 #selectors {
-    margin-top:5px;
+    margin-top:3px;
     padding:0;
-    width:84.75%;
+    width:85%;
     float:right;
 }
 #artist-selector, #album-selector {
-    border:thin #009be3 solid;
+    border:1px #009be3 solid;
     width:49.75%;
 }
 #artist-selector {
@@ -88,19 +111,19 @@ img {
     text-decoration:none;
 }
 
-/* Collection */
+/***** collection styles *****/
 #collection {
-    margin-top:5px;
-    border:thin #009be3 solid;
+    margin-top:3px;
+    border:1px #009be3 solid;
     overflow-y:auto;
-    width:84.75%;
+    width:85%;
     float:right;
 }
 #entries { /* table */
     width:100%;
 }
 #entries tr th {
-    border-bottom:thin #009be3 solid;
+    border-bottom:1px #009be3 solid;
 	text-align:left;
 	cursor:pointer;
 }

@@ -21,6 +21,10 @@ return array(
 
 	'play_by_title' => 'Play: &quot;:title&quot;',
 	'add_playlist' => 'Add Playlist',
+	
+	// from entries/view.php
+	'by' => 'by',
+	'from' => 'from',
 
 	// from dataload/index.php
 	'dataload_title' => 'Dataload Manager',

@@ -13,6 +13,15 @@ Lang::load('howler');
 
 <div id='marquee'><?php echo Lang::get('application_title') ?></div>
 
+<div id='playlists-container'>
+	<div id='playlists-header' class='header'>
+		<div class='left'><?php echo Lang::get('play_queue') ?></div>
+		<div class='right'><a href='#'><?php echo Asset::img('add.png') ?></a></div>
+		<div class='clear'></div>
+	</div>
+	<div id='playlist'></div>
+</div>
+
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 <div id='jp_container_1' class="jp-audio">
 	<div class="jp-type-playlist">
@@ -41,11 +50,6 @@ Lang::load('howler');
 </div>
 
 <div id='search'></div>
-
-<div id='playlists-container'>
-	<div class='header'><?php echo Lang::get('play_queue') ?></div>
-	<div id='playlist'></div>
-</div>
 
 <div id='selectors'>
 	<div id='artist-selector'>
