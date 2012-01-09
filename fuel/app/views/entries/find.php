@@ -22,10 +22,10 @@
 				<td class="track"><?php echo $entry['track']; ?></td>
 
 				<td class="artist"><a title="<?php echo Lang::get('find_by', array('type' => 'artist', 'name' => $entry['artist'])); ?>"
-					href="#artist=<?php echo urlencode($entry['artist']); ?>"><?php echo $entry['artist']; ?></a></td>
+					href="#artist=<?php echo urlencode(html_entity_decode($entry['artist'])) ?>"><?php echo $entry['artist']; ?></a></td>
 
 				<td class="album"><a title="<?php echo Lang::get('find_by', array('type' => 'album', 'name' => $entry['album'])); ?>"
-					href="#album=<?php echo urlencode($entry['album']); ?>"><?php echo $entry['album']; ?></a></td>
+					href="#album=<?php echo urlencode(html_entity_decode($entry['album'])) ?>"><?php echo $entry['album']; ?></a></td>
 
 				<td class="title"><a title="<?php echo Lang::get('play_by_title', array('title' => $entry['title'])); ?>"
 					href="#play=<?php echo urlencode($entry['id']); ?>" class="play"><?php echo $entry['title']; ?></a></td>
