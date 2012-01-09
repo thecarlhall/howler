@@ -30,6 +30,7 @@ img {
 }
 .header {
     background-color:lightgray;
+    border-bottom:1px #009be3 solid;
 }
 .clear {
     clear:both;
@@ -60,9 +61,6 @@ img {
 }
 #playlists {
 	min-height:13em;
-}
-#playlists-header {
-	border-bottom:1px #009be3 solid;
 }
 /***** marquee styles *****/
 #marquee {
