@@ -10,7 +10,7 @@
 			$img_alt = $img_title = Lang::get('add_playlist');
 		?>
 			<li class="entry <?php echo $rows[$cycle]; ?>">
-				<a title="<?php echo Lang::get('find_by', array('type' => $type, array('name' => $name))); ?>"
+				<a title="<?php echo Lang::get('find_by', array('type' => $type, 'name' => $name)); ?>"
 					href="#<?php echo $type; ?>=<?php echo $name; ?>"
 					><?php echo $name; ?> (<?php echo $entry['count']; ?>)</a>
 					<span class="right"><?php echo Asset::img('add.png', array('alt' => $img_alt, 'title' => $img_title)); ?></span>

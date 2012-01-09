@@ -36,6 +36,7 @@ class Controller_Dataload extends Controller
 	private function process_dir($start_dir, $update = false)
 	{
 		set_time_limit(0);
+		ini_set('memory_limit', '256M');
 		require_once(APPPATH.'classes/getid3/getid3.php');
 		$id3 = new getID3;
 
@@ -45,7 +46,7 @@ class Controller_Dataload extends Controller
 		$files_dirs = scandir($start_dir);
 		foreach ($files_dirs as $fd)
 		{
-			if ($fd == '.' or $fd == '..' or pathinfo($fd, PATHINFO_EXTENSION) != 'mp3')
+			if ($fd == '.' or $fd == '..')
 			{
 				continue;
 			}
@@ -57,17 +58,22 @@ class Controller_Dataload extends Controller
 			}
 			elseif (is_file($full_path))
 			{
+				if (pathinfo($fd, PATHINFO_EXTENSION) != 'mp3')
+				{
+					continue;
+				}
+
 				// get existing model or create one
 				$entry = Model\Entry::find()->where('path', $full_path)->get_one();
 				if ($entry == null) {
 					$msg = "Creating entry for $full_path";
 					Log::info($msg);
-					echo $msg;
+					echo "$msg<br/>";
 					$entry = Model\Entry::forge(array('path' => $full_path));
 				} elseif ($update) {
 					$msg = "Updating entry for $full_path";
 					Log::info($msg);
-					echo $msg;
+					echo "$msg<br/>";
 				} else {
 					continue;
 				}
@@ -96,6 +102,10 @@ class Controller_Dataload extends Controller
 				}
 				$entry->save();
 				$count++;
+
+				if ($count % 100 == 0) {
+					flush();
+				}
 			}
 		}
 		return $count;

@@ -18,6 +18,7 @@ class Controller_Entries extends Controller
 				->from('entries')
 				->order_by($type)
 				->group_by($type)
+				->cached(3600)
 				->execute();
 		$data = array('type' => $type, 'entries' => $results->as_array());
 		return View::forge('entries/list', $data);
