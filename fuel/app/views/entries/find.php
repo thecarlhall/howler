@@ -32,9 +32,7 @@
 				<td class="year"><?php echo $entry['year']; ?></td>
 				<td class="actions"><?php echo Asset::img('add.png', array('alt' => Lang::get('add_playlist'))); ?></td>
 			</tr>
-		<?php
-		}
-		?>
+		<?php } ?>
 	</tbody>
 	<?php } ?>
 </table>
